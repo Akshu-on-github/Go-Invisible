@@ -19,13 +19,14 @@ def turnInvisible():
     for i in range(30):
         ret,background = video_capture.read()
 
+	# TODO: Delete both if not needed - else, the wrong pixels will be replaced
     background = np.flip(background,axis=1)
 
     while(video_capture.isOpened()):
         # stored in a numpy array
         ret, img = video_capture.read()
         
-        # TODO: Delete if not needed - else, the wrong pixels will be replaced
+        # TODO: Delete both if not needed - else, the wrong pixels will be replaced
         img = np.flip(img,axis=1)
         
         # Converting image to HSV color space
@@ -34,7 +35,7 @@ def turnInvisible():
         
         blurred = cv2.GaussianBlur(hsv, value,0)
         
-	      # Detecting Red - lower range
+	    # Detecting Red - lower range
         lower_red = np.array([0,120,70])
         upper_red = np.array([10,255,255])
         mask1 = cv2.inRange(hsv,lower_red,upper_red)
@@ -57,13 +58,13 @@ def turnInvisible():
 
 
 def sayTheMagicWord():
-    # obtain audio from the microphone
+    # Input from microphone
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("What's the magic word?")
         audio = r.listen(source)
     
-    # recognize speech using Google Speech Recognition
+    # Use Google Speech Recognition
     try:
         magic_word = r.recognize_google(audio)
         if magic_word == "please":
